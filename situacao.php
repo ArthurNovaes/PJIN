@@ -4,37 +4,34 @@
 	<meta charset="UTF-8">
 	<?php 
 		$busca=$_GET['uf'];
-		echo "<title>Dados ".$busca."</title>";
+		echo "<title>Monop - ".$busca."</title>";
 	?>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/custom.css">
+	
 </head>
 <body>
-	
-<?php
-	$string = file_get_contents("convertcsv.json");
-	$result = json_decode($string);
-	//$result[1]->idn_empreendimento;
-	//var_dump($result);
-
-	//echo $result->FIELD1;
- 
-?>
 	<div class="container">
-		<div class="row">
-			
-				<?php
+
+		<?php 
+			include "header.html";
+			$string = file_get_contents("convertcsv.json");
+			$result = json_decode($string); 
+		?>
+			<div class="row">			
+				<br>
+				<fieldset><legend><h1>Obras por Situação (Status)</h1></legend>
+					<?php
 					$i=1;
 					while($i<count($result))
 					{
-						//echo "<fieldset class='fieldset'>";
-							
 						$idn_empreendimento = $result[$i]->idn_empreendimento;
 						$idn_digs = $result[$i]->idn_digs;
 						$dsc_titulo = $result[$i]->dsc_titulo;
 						$investimento_total = $result[$i]->investimento_total;
 						if($investimento_total=="")
 						{
-							$investimento_total="Não Informado";
+							$investimento_total="Não foi Informado";
 						}
 						$sig_uf = $result[$i]->sig_uf;
 						$txt_municipios = $result[$i]->txt_municipios;
@@ -87,31 +84,15 @@
 						$emblematica = $result[$i]->emblematica;
 						$observacao = $result[$i]->observacao;
 
-
-						$estado = strpos($sig_uf, $busca);
-						if($estado)
-						{
-							echo "<h2>".$dsc_titulo."</h2>";
-							echo "<h4>Investimento Total: </h4>".$investimento_total;
-							echo "<h4>Estados onde esta sendo Realizado: </h4>".$sig_uf;
-							echo "<h4>Municipios onde esta sendo Realizado: </h4>".$txt_municipios;
-							echo "<h4>Órgão Responsável pela execução do empreendimento: </h4>".$txt_executores;
-							echo "<h4>Órgão Responsável pelo monitoramento do empreendimento: </h4>".$dsc_orgao;
-							echo "<h4>Estágio do empreendimento: </h4>".$estagio; //fazer a descrição.. modal...
-							echo "<h4>Data limite de atualizações das informações do empreendimento: </h4>".$dat_ciclo;
-							echo "<h4>Data em que o empreendimento foi selecionado e incluído na carteira de projetos do PAC: </h4>".$dat_selecao;
-							echo "<h4>Data de conclusão do empreendimento atualizada e revisada: </h4>".$dat_conclusao_revisada;
-							echo "<h4>Observação: </h4>".$observacao;
-						}
 						$i++;
 					}					
 				?>
 
+				</fieldset>
+			
+			</div>
 		</div>
-	</div>
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-<script src="js/bootstrap-dropdown.js"></script>
+		<?php include "footer.html"; ?>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </body>
-</html>
+</html>	
